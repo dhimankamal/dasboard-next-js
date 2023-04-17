@@ -3,6 +3,7 @@ import Input from "@/components/ui/Input";
 import axios from "axios";
 import { NextPage } from "next";
 import { useState } from "react";
+import cookie from 'js-cookie';
 
 interface Props {}
 
@@ -16,6 +17,10 @@ const Login: NextPage<Props> = ({}) => {
     event.preventDefault();
     try {
       const res = await axios.post("/api/auth/login", formData);
+      if(res?.data){
+        console.log("res?.data?.token", res?.data?.token)
+        cookie.set('token', res?.data?.token, { expires: 1 });
+      }
       console.log("res", res);
     } catch (error) {
       console.log("error", error);
