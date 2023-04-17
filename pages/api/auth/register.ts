@@ -11,9 +11,7 @@ const register: NextApiHandler = async (req, res) => {
     return;
   }
 
-  const { email, password } = req.body;
-
-  console.log("email>>>>", email)
+  const { email, password, name } = req.body;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -21,7 +19,7 @@ const register: NextApiHandler = async (req, res) => {
       data: {
         email,
         password: hashedPassword,
-        name: "kamal",
+        name,
       },
     });
     const token = jwt.sign({ userId: user.id }, JWT_SECRET);
