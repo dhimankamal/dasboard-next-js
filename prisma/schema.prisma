@@ -16,3 +16,13 @@ model User {
   password String
   email    String @unique
 }
+
+model UserData {
+  id        String @id @default(cuid())
+  userid    String @unique
+  firstname String
+  lastname  String
+  email     String
+  city      String
+  number    String
+}
