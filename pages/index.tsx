@@ -1,4 +1,4 @@
-import { Button, PrimaryButton } from "@/components/ui/Button";
+// import { Button, PrimaryButton } from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import { NextPage } from "next";
 
@@ -21,7 +21,7 @@ require('@tailwindcss/forms'),
   }
   ```
 */}
-      <form>
+      {/* <form>
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 pb-12">
             <h2 className="text-base font-semibold leading-7 text-gray-900">
@@ -421,7 +421,7 @@ require('@tailwindcss/forms'),
           <Button variant="secondary">Cancel</Button>
           <Button>Submit</Button>
         </div>
-      </form>
+      </form> */}
     </div>
   );
 };
