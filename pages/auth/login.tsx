@@ -3,26 +3,45 @@ import Input from "@/components/ui/Input";
 import axios from "axios";
 import { NextPage } from "next";
 import { useState } from "react";
-import cookie from 'js-cookie';
+import cookie from "js-cookie";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 interface Props {}
 
 const Login: NextPage<Props> = ({}) => {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+    const id = toast.loading("Please wait...");
     event.preventDefault();
     try {
       const res = await axios.post("/api/auth/login", formData);
-      if(res?.data){
-        console.log("res?.data?.token", res?.data?.token)
-        cookie.set('token', res?.data?.token, { expires: 1 });
+      if (res?.data && res?.data?.token) {
+        console.log("res?.data?.token", res?.data?.token);
+        cookie.set("token", res?.data?.token, { expires: 1 });
+        toast.update(id, {
+          render: "Welcome! You have successfully logged in to your account.",
+          type: "success",
+          isLoading: false,
+          autoClose:6000
+        });
+
+        router.push("/dashboard");
       }
       console.log("res", res);
     } catch (error) {
+      toast.update(id, {
+        render:
+          "Sorry, we couldn't log you in. Please check your email and password and try again.",
+        type: "error",
+        isLoading: false,
+        autoClose:7000
+      });
       console.log("error", error);
     }
   };
@@ -34,10 +53,7 @@ const Login: NextPage<Props> = ({}) => {
   return (
     <div className="container mx-auto py-12">
       <h1>Login</h1>
-      <p>
-        This information will be displayed publicly so be careful what you
-        share.
-      </p>
+      <p>Access your account anytime, anywhere with just one click.</p>
       <form className="py-6 space-y-4 w-6/12" onSubmit={handleLogin}>
         <Input
           label="Username"
