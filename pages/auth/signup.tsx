@@ -2,11 +2,14 @@ import { Button } from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import axios from "axios";
 import { NextPage } from "next";
+import { useRouter } from "next/router";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 interface Props {}
 
 const Signup: NextPage<Props> = ({}) => {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -15,11 +18,26 @@ const Signup: NextPage<Props> = ({}) => {
 
   const handleSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const id = toast.loading("Please wait...");
     try {
-      const res = await  axios.post('/api/auth/register',formData);
-      console.log("res", res);
+      const res = await axios.post("/api/auth/register", formData);
+      if (res) {
+        toast.update(id, {
+          render: "Welcome! You have successfully register in to your account.",
+          type: "success",
+          isLoading: false,
+          autoClose: 6000,
+        });
+        router.push("/auth/login");
+      }
     } catch (error) {
-      console.log("error", error)
+      toast.update(id, {
+        render: "Sorry, we couldn't register you in",
+        type: "error",
+        isLoading: false,
+        autoClose: 7000,
+      });
+      console.log("error", error);
     }
     console.log("formData", formData);
   };

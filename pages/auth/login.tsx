@@ -22,7 +22,7 @@ const Login: NextPage<Props> = ({}) => {
     try {
       const res = await axios.post("/api/auth/login", formData);
       if (res?.data && res?.data?.token) {
-        console.log("res?.data?.token", res?.data?.token);
+        // console.log("res?.data?.token", res?.data?.token);
         cookie.set("token", res?.data?.token, { expires: 1 });
         toast.update(id, {
           render: "Welcome! You have successfully logged in to your account.",
